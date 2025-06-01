@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>30-Day Trading Strategy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <span class="logo">30-Day Trader</span>
+        </div>
+        <div class="navbar-links">
+            <a href="#" class="nav-link active" data-page="home"><i class="fas fa-home"></i> <span>Home</span></a>
+            <a href="#" class="nav-link" data-page="trading"><i class="fas fa-chart-line"></i> <span>Trading</span></a>
+            <a href="#" class="nav-link" data-page="profile"><i class="fas fa-user"></i> <span>Profile</span></a>
+            <a href="#" class="nav-link" data-page="contact"><i class="fas fa-envelope"></i> <span>Contact</span></a>
+            <a href="#" class="nav-link" data-page="about"><i class="fas fa-info-circle"></i> <span>About</span></a>
+            <div class="theme-toggle">
+                <i class="fas fa-moon"></i>
+                <span>Dark Mode</span>
+            </div>
+        </div>
+        <div class="navbar-profile">
+            <div class="profile-dropdown">
+                <img src="https://ui-avatars.com/api/?name=User&background=random" alt="Profile" class="profile-img">
+                <div class="dropdown-content">
+                    <a href="#" data-page="home"><i class="fas fa-home"></i> Home</a>
+                    <a href="#" data-page="trading"><i class="fas fa-chart-line"></i> Trading</a>
+                    <a href="#" data-page="profile"><i class="fas fa-user"></i> Profile</a>
+                    <a href="#" data-page="contact"><i class="fas fa-envelope"></i> Contact</a>
+                    <a href="#" data-page="about"><i class="fas fa-info-circle"></i> About</a>
+                    <a href="#" class="theme-toggle-dropdown"><i class="fas fa-moon"></i> Dark Mode</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Onboarding Modal -->
+    <div class="modal-overlay" id="onboarding-modal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Welcome to 30-Day Trading Strategy</h2>
+                <div class="progress-bar">
+                    <div class="progress" id="onboarding-progress"></div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <!-- Step 1 -->
+                <div class="onboarding-step active" data-step="1">
+                    <div class="step-content">
+                        <div class="illustration">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Welcome">
+                        </div>
+                        <h3>Let's get started</h3>
+                        <p>Please enter your name to personalize your experience</p>
+                        <div class="form-group">
+                            <input type="text" id="user-name" placeholder="Your Name" class="form-input">
+                        </div>
+                    </div>
+                    <div class="step-actions">
+                        <button class="btn btn-next" onclick="nextStep()">Next <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="onboarding-step" data-step="2">
+                    <div class="step-content">
+                        <div class="illustration">
+                            <img src="https://cdn-icons-png.flaticon.com/512/4776/4776785.png" alt="Initial Amount">
+                        </div>
+                        <h3>Initial Investment</h3>
+                        <p>Enter your starting amount for the 30-day strategy</p>
+                        <div class="form-group">
+                            <input type="number" id="initial-amount" placeholder="Initial Amount ($)" class="form-input">
+                            <div class="amount-options">
+                                <button class="amount-option" onclick="setAmount(50)">$50</button>
+                                <button class="amount-option" onclick="setAmount(100)">$100</button>
+                                <button class="amount-option" onclick="setAmount(200)">$200</button>
+                                <button class="amount-option" onclick="setAmount(500)">$500</button>
+                                <button class="amount-option" onclick="setAmount(1000)">$1000</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step-actions">
+                        <button class="btn btn-prev" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
+                        <button class="btn btn-next" onclick="nextStep()">Next <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="onboarding-step" data-step="3">
+                    <div class="step-content">
+                        <div class="illustration">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3132/3132693.png" alt="Profit Percentage">
+                        </div>
+                        <h3>Profit Percentage</h3>
+                        <p>Choose your daily profit target percentage</p>
+                        <div class="form-group">
+                            <input type="number" id="profit-percentage" placeholder="Profit Percentage (%)" class="form-input">
+                            <div class="percentage-options">
+                                <button class="percentage-option" onclick="setPercentage(5)">5%</button>
+                                <button class="percentage-option" onclick="setPercentage(10)">10%</button>
+                                <button class="percentage-option" onclick="setPercentage(15)">15%</button>
+                                <button class="percentage-option" onclick="setPercentage(20)">20%</button>
+                                <button class="percentage-option" onclick="setPercentage(25)">25%</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step-actions">
+                        <button class="btn btn-prev" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
+                        <button class="btn btn-finish" onclick="finishOnboarding()">Finish <i class="fas fa-check"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home Page -->
+        <div class="page active" id="home-page">
+            <div class="dashboard-header">
+                <h1>Dashboard</h1>
+                <p>Track your 30-day trading progress</p>
+            </div>
+            
+            <div class="stats-container">
+                <!-- Add this to your dashboard HTML with the other stat cards -->
+<div class="stat-card">
+  <div class="stat-icon">
+    <i class="fas fa-calculator"></i>
+  </div>
+  <div class="stat-info">
+    <h3>Total Amount</h3>
+    <p id="total-amount">$0.00</p>
+  </div>
+</div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Current Balance</h3>
+                        <p id="current-balance">$0.00</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Profit To Be Made</h3>
+                        <p id="profit-to-make">$0.00</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Lost Money</h3>
+                        <p id="lost-money">$0.00</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-piggy-bank"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Saving Amount</h3>
+                        <p id="saving-amount">$0.00</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="progress-chart"></canvas>
+            </div>
+            
+            <div class="recent-activities">
+                <h2>Recent Activities</h2>
+                <div class="activities-list" id="activities-list">
+                    <!-- Activities will be added here dynamically -->
+                </div>
+                <button class="btn btn-add-activity" onclick="showAddActivityModal()">
+                    <i class="fas fa-plus"></i> Add New Activity
+                </button>
+            </div>
+        </div>
+
+        <!-- Trading Page -->
+        <div class="page" id="trading-page">
+            <div class="trading-header">
+                <h1>Trading Data</h1>
+                <p>Manage your 30-day trading strategy</p>
+            </div>
+            
+            
+<div class="trading-actions">
+    <button class="btn btn-import" onclick="importData()">
+        <i class="fas fa-file-import"></i> Import
+    </button>
+    <button class="btn btn-export" onclick="exportData()">
+        <i class="fas fa-file-export"></i> Export
+    </button>
+    <button class="btn btn-pdf" onclick="exportAsPDF()">
+        <i class="fas fa-file-pdf"></i> Export PDF
+    </button>
+    <button class="btn btn-print" onclick="printData()">
+        <i class="fas fa-print"></i> Print
+    </button>
+    <button class="btn btn-reset" onclick="resetTradingData()">
+        <i class="fas fa-redo"></i> Reset
+    </button>
+</div>
+            
+            <div class="table-container">
+                <table id="trading-table">
+                    <thead>
+                        <tr>
+                            <th>Day #</th>
+                            <th>Balance</th>
+                            <th>Profit To Be Made</th>
+                            <th>Expected Balance</th>
+                            <th>Lost Money</th>
+                            <th>Saving Balance</th>
+                            <th>Achieved</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="trading-table-body">
+                        <!-- Trading data will be added here dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Profile Page -->
+        <div class="page" id="profile-page">
+            <div class="profile-header">
+                <h1>Profile Settings</h1>
+                <p>Manage your account information</p>
+            </div>
+            
+            <div class="profile-container">
+                <div class="profile-sidebar">
+                    <div class="profile-image-container">
+                        <img id="profile-display-img" src="https://ui-avatars.com/api/?name=User&background=random" alt="Profile">
+                        <button class="btn btn-change-image" onclick="openImageUpload()">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                    </div>
+                    <div class="profile-stats">
+                        <h3>Your Stats</h3>
+                        <div class="profile-stat">
+                            <span>Initial Amount:</span>
+                            <span id="profile-initial-amount">$0.00</span>
+                        </div>
+                        <div class="profile-stat">
+                            <span>Current Profit:</span>
+                            <span id="profile-current-profit">$0.00</span>
+                        </div>
+                        <div class="profile-stat">
+                            <span>Total Lost:</span>
+                            <span id="profile-total-lost">$0.00</span>
+                        </div>
+                        <div class="profile-stat">
+                            <span>Total Saved:</span>
+                            <span id="profile-total-saved">$0.00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="profile-form">
+                    <div class="form-group">
+                        <label for="edit-name"><i class="fas fa-user"></i> Name</label>
+                        <input type="text" id="edit-name" class="form-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-amount"><i class="fas fa-dollar-sign"></i> Initial Amount</label>
+                        <input type="number" id="edit-amount" class="form-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-percentage"><i class="fas fa-percent"></i> Profit Percentage</label>
+                        <input type="number" id="edit-percentage" class="form-input">
+                    </div>
+                    
+                    <div class="form-group hidden" id="image-upload-group">
+                        <label for="profile-image-upload"><i class="fas fa-image"></i> Profile Image</label>
+                        <input type="file" id="profile-image-upload" accept="image/*" class="form-input">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button class="btn btn-save" onclick="saveProfile()">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Page -->
+        <div class="page" id="contact-page">
+            <div class="contact-header">
+                <h1>Contact Us</h1>
+                <p>Have questions? Send us a message</p>
+            </div>
+            
+            <div class="contact-container">
+                <form id="contact-form">
+                    <div class="form-group">
+                        <label for="contact-name"><i class="fas fa-user"></i> Your Name</label>
+                        <input type="text" id="contact-name" required class="form-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contact-email"><i class="fas fa-envelope"></i> Email Address</label>
+                        <input type="email" id="contact-email" required class="form-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contact-subject"><i class="fas fa-tag"></i> Subject</label>
+                        <input type="text" id="contact-subject" required class="form-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contact-message"><i class="fas fa-comment"></i> Message</label>
+                        <textarea id="contact-message" rows="5" required class="form-input"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-send">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>support@30daytrader.com</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <span>+1 (555) 123-4567</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>123 Trading St, Financial District, NY 10001</span>
+                    </div>
+                    
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Page -->
+        <div class="page" id="about-page">
+            <div class="about-header">
+                <h1>About the 30-Day Trading Strategy</h1>
+                <p>Learn how our strategy can help you grow your investments</p>
+            </div>
+            
+            <div class="about-container">
+                <div class="about-content">
+                    <div class="about-section">
+                        <h2><i class="fas fa-lightbulb"></i> The Concept</h2>
+                        <p>The 30-Day Trading Strategy is a systematic approach to growing your investment through consistent daily profits while managing risk effectively. The strategy focuses on compounding gains while protecting your capital through a disciplined saving approach.</p>
+                    </div>
+                    
+                    <div class="about-section">
+                        <h2><i class="fas fa-calculator"></i> How It Works</h2>
+                        <p>The strategy is based on three key principles:</p>
+                        <ol>
+                            <li><strong>Daily Profit Target:</strong> You set a realistic daily profit percentage (e.g., 5-10%) based on your risk tolerance.</li>
+                            <li><strong>Saving Mechanism:</strong> Half of your daily profit is saved to protect your capital from potential losses.</li>
+                            <li><strong>Compounding Effect:</strong> Your profits are reinvested to grow your balance exponentially over the 30-day period.</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="about-section">
+                        <h2><i class="fas fa-chart-pie"></i> The Formula</h2>
+                        <p>The strategy uses the following calculations:</p>
+                        <ul>
+                            <li><strong>Daily Profit:</strong> Balance × Profit Percentage</li>
+                            <li><strong>Expected Balance:</strong> Balance + Daily Profit</li>
+                            <li><strong>Saving Amount:</strong> (Daily Profit / 2) - Any Losses</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="about-section">
+                        <h2><i class="fas fa-shield-alt"></i> Risk Management</h2>
+                        <p>The built-in saving mechanism ensures that even if you experience losses, you have a buffer to protect your initial investment. By saving half of your profits each day, you create a safety net that grows along with your account balance.</p>
+                    </div>
+                    
+                    <div class="about-section">
+                        <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+                        <div class="faq-item">
+                            <h3>What if I miss a day or don't achieve my target?</h3>
+                            <p>You can mark days as "No" in the Achieved column, which will exclude them from calculations. The strategy is flexible enough to accommodate occasional missed targets.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h3>Can I change my initial amount or profit percentage?</h3>
+                            <p>Yes, you can adjust these parameters at any time in your Profile settings. The app will recalculate all values based on your new settings.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h3>Is this strategy suitable for beginners?</h3>
+                            <p>While the strategy is simple to follow, trading always involves risk. We recommend starting with small amounts and adjusting your profit percentage based on your experience level.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="about-illustration">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3132/3132736.png" alt="Trading Strategy">
+                    <div class="illustration-caption">
+                        <p>Visualizing the power of compounding profits over 30 days</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Add this before the closing </main> tag in your HTML -->
+    </main>
+<footer class="page-footer">  
+    <p>&copy; 2025 30-Day Trader. All rights reserved.</p>
+</footer>
+    <!-- Add Activity Modal -->
+    <div class="modal-overlay" id="activity-modal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Add New Trading Activity</h2>
+                <button class="btn-close" onclick="closeActivityModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="activity-day">Day Number</label>
+                    <select id="activity-day" class="form-input">
+                        <!-- Days will be populated dynamically -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="activity-achieved">Achieved</label>
+                    <select id="activity-achieved" class="form-input">
+                        <option value="auto">Auto (Calculate Normally)</option>
+                        <option value="yes">Yes (Include in Totals)</option>
+                        <option value="no">No (Exclude from Totals)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="activity-lost">Lost Money ($)</label>
+                    <input type="number" id="activity-lost" class="form-input" value="0" min="0">
+                </div>
+                
+                <div class="form-actions">
+                    <button class="btn btn-cancel" onclick="closeActivityModal()">
+                        Cancel
+                    </button>
+                    <button class="btn btn-save" onclick="saveActivity()">
+                        Save Activity
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Upload Modal -->
+    <div class="modal-overlay" id="image-modal">
+        <div class="modal-container image-modal">
+            <div class="modal-header">
+                <h2>Change Profile Image</h2>
+                <button class="btn-close" onclick="closeImageModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="image-preview-container">
+                    <img id="image-preview" src="" alt="Preview">
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-cancel" onclick="closeImageModal()">
+                        Cancel
+                    </button>
+                    <button class="btn btn-save" onclick="saveProfileImage()">
+                        Save Image
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="toast" id="toast">
+        <div class="toast-content">
+            <i class="fas fa-check-circle toast-icon"></i>
+            <span class="toast-message">Changes saved successfully!</span>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
