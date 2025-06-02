@@ -676,11 +676,11 @@ function saveActivity() {
 }
 
 function formatAmount(amount) {
-    if (isNaN(amount)) return '$0.000000';
+    if (isNaN(amount)) return '$0.00';
     // Format with commas and 5 decimal places
     return '$ ' + amount.toLocaleString('en-US', {
         minimumFractionDigits: 2,
-        maximumFractionDigits: 6
+        maximumFractionDigits: 2
     });
 }
 
