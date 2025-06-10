@@ -1,0 +1,22 @@
+{
+  "name": "Trading App",
+  "short_name": "Trading",
+  "description": "Track your trading profits and savings",
+  "start_url": "/Trading-app/",
+  "display": "standalone",  // Opens like a real app (no browser UI)
+  "background_color": "#ffffff",
+  "theme_color": "#3a86ff",
+  "orientation": "portrait",  // Force portrait mode (optional)
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
